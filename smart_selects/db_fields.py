@@ -22,6 +22,9 @@ class ChainedForeignKey(ForeignKey):
         self.show_all = show_all
         self.auto_choose = auto_choose
         ForeignKey.__init__(self, to, **kwargs)
+        
+    def validate(self, value, model_instance):
+        super(ChainedForeignKey, self).validate(value, model_instance)
 
     def formfield(self, **kwargs):
         defaults = {

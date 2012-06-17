@@ -127,13 +127,13 @@ class ChainedSelect(Select):
                     fill_field(val, start_value);
                 })
             })
-            var oldDismissAddAnotherPopup = dismissAddAnotherPopup;
             dismissAddAnotherPopup = function(win, newId, newRepr) {
                 oldDismissAddAnotherPopup(win, newId, newRepr);
                 if (windowname_to_id(win.name) == "id_%(chainfield)s") {
                     $("#id_%(chainfield)s").change();
                 }
             }
+            var oldDismissAddAnotherPopup = dismissAddAnotherPopup;
         })(jQuery || django.jQuery);
         //]]>
         </script>
@@ -142,7 +142,10 @@ class ChainedSelect(Select):
         final_choices = []
 
         if value:
-            item = self.queryset.filter(pk=value)[0]
+            try:
+                item = self.queryset.filter(pk=value)[0]
+            except AttributeError:
+                pass
             try:
                 pk = getattr(item, self.model_field + "_id")
                 filter = {self.model_field:pk}

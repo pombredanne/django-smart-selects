@@ -25,6 +25,8 @@ class ChainedForeignKey(ForeignKey):
         
     def validate(self, value, model_instance):
         super(ChainedForeignKey, self).validate(value, model_instance)
+        raise exceptions.ValidationError(self.error_messages['invalid'] % {
+                'model': self.rel.to._meta.verbose_name, 'pk': value})
 
     def formfield(self, **kwargs):
         defaults = {

@@ -1,4 +1,6 @@
 from django.db.models.fields.related import ForeignKey
+from django.core import exceptions
+
 import form_fields
 try:
     from south.modelsinspector import add_introspection_rules
